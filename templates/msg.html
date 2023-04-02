@@ -1,0 +1,37 @@
+<html>
+  <body>
+    <form onsubmit="predictText(); return false;">
+      <label for="text">Text:</label>
+      <input type="text" id="text" name="text">
+      <button type="submit">Send</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+      function predictText() {
+        // Get the text to predict
+        var text = document.getElementById("text").value;
+
+        // Create a form data object
+        var formData = new FormData();
+        formData.append("text", text);
+
+        // Send the prediction request to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/predict");
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // Update the result element with the prediction result
+            var result = xhr.responseText;
+            document.getElementById("result").textContent = "The prediction is: " + result;
+          } else {
+            // Handle the error
+            alert("An error occurred while making the prediction.");
+            print(console.error());
+          }
+        };
+        xhr.send(formData);
+      }
+    </script>
+  </body>
+</html>
